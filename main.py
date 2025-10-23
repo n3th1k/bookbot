@@ -1,11 +1,12 @@
+import sys
+
 from stats import word_count, char_count, sort_on
 
-def analyze_book():
+def analyze_book(book_path):
     def get_book_text(filepath):
         with open(filepath, encoding='utf-8') as file:
             return file.read()
 
-    book_path = 'books/frankenstein.txt'  # relative path to book's text file
     book_text = get_book_text(book_path)
     wc = word_count(book_text)
     cc = char_count(book_text)
@@ -13,7 +14,12 @@ def analyze_book():
     return book_path, wc, sorted_cc
 
 if __name__ == '__main__':
-    book_path, wc, sorted_cc = analyze_book()
+    if len(sys.argv) != 2:
+        print('Usage: python3 main.py <path_to_book>')
+        sys.exit(1)
+
+    book_path_arg = sys.argv[1]
+    book_path, wc, sorted_cc = analyze_book(book_path_arg)
 
     print('============ BOOKBOT ============')
     print(f'Analyzing book found at {book_path}...')
